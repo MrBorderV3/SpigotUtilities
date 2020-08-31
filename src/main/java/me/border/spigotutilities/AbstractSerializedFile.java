@@ -8,9 +8,9 @@ public abstract class AbstractSerializedFile<I> {
     private File path;
     public I item;
 
-    public AbstractSerializedFile(File file, File path, I item) {
+    public AbstractSerializedFile(String file, File path, I item) {
         this.path = path;
-        this.file = file;
+        this.file = new File(path, file + ".dat");
         this.item = item;
     }
 
@@ -58,5 +58,9 @@ public abstract class AbstractSerializedFile<I> {
 
     public File getFile() {
         return file;
+    }
+
+    public I getItem(){
+        return item;
     }
 }

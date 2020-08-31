@@ -4,14 +4,14 @@ import com.sun.istack.internal.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 public abstract class ICommand extends Command {
     protected String cmd_args;
-    private Plugin plugin = UtilsMain.getInstance();
+    private JavaPlugin plugin = UtilsMain.getInstance();
     private boolean player;
 
     public ICommand(String name, String description, String permission, boolean player, String... aliases) {

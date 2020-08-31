@@ -2,21 +2,19 @@ package me.border.spigotutilities;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.IOException;
 
 public abstract class AbstractYamlFile {
 
-    protected Plugin plugin = UtilsMain.getInstance();
-    protected File path;
-    protected File file;
-    protected FileConfiguration data;
+    private File path;
+    private File file;
+    private FileConfiguration data;
 
-    protected AbstractYamlFile(String name){
-        this.path = new File(plugin.getDataFolder() + File.separator + "/data");
-        this.file = new File(path, name + ".yml");
+    public AbstractYamlFile(String file, File path){
+        this.path = path;
+        this.file = new File(path, file + ".yml");
     }
 
     public void setup(){
@@ -48,5 +46,13 @@ public abstract class AbstractYamlFile {
 
     public void reload(){
         this.data = YamlConfiguration.loadConfiguration(file);
+    }
+
+    public File getPath(){
+        return path;
+    }
+
+    public File getFile() {
+        return file;
     }
 }

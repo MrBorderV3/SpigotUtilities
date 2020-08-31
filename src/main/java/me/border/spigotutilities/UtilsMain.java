@@ -1,16 +1,16 @@
 package me.border.spigotutilities;
 
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class UtilsMain {
 
-    private static Plugin plugin;
+    private static JavaPlugin plugin;
 
-    public static Plugin getInstance(){
+    public static JavaPlugin getInstance(){
         return plugin;
     }
 
-    public static void init(Plugin plugin){
+    public static void init(JavaPlugin plugin){
         UtilsMain.plugin = plugin;
     }
 }

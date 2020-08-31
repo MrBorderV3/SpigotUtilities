@@ -5,14 +5,14 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.BlockIterator;
 
 import static me.border.spigotutilities.Utils.*;
 
 public class PlayerUtils {
 
-    private static Plugin plugin = UtilsMain.getInstance();
+    private static JavaPlugin plugin = UtilsMain.getInstance();
 
     public static void playSound(Player p, Sound sound) {
         p.playSound(p.getLocation(), sound, 2F, 1F);

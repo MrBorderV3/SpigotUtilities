@@ -3,12 +3,13 @@ package me.border.spigotutilities;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.border.spigotutilities.Utils.*;
 
 public class CommandUtils {
 
-    private static Plugin plugin = UtilsMain.getInstance();
+    private static JavaPlugin plugin = UtilsMain.getInstance();
 
     // Check if the args are right, returns true/false.
     public static boolean argsCheck(CommandSender sender, int allowed, String[] args) {

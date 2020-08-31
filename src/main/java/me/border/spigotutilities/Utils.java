@@ -1,6 +1,9 @@
 package me.border.spigotutilities;
 
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
 import static me.border.spigotutilities.ChatUtils.*;
 
 public class Utils {
-    private static Plugin plugin = UtilsMain.getInstance();
+    private static JavaPlugin plugin = UtilsMain.getInstance();
 
     public static String cs(String s) {
         return plugin.getConfig().getString(s);
@@ -74,5 +77,19 @@ public class Utils {
             newList.add(colorize(listLine));
         }
         return newList;
+    }
+
+    public static JavaPlugin initializePlugin(){
+        plugin.saveDefaultConfig();
+        plugin.getConfig().options().copyDefaults(true);
+        return plugin;
+    }
+
+    public static void registerCommand(CommandExecutor commandExecutor, String command) {
+        plugin.getCommand(command).setExecutor(commandExecutor);
+    }
+
+    public static void registerListener(Listener listener){
+        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
     }
 }

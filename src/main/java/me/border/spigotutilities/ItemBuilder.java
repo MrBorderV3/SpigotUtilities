@@ -15,7 +15,7 @@ public class ItemBuilder {
     private String name = null;
     private List<String> lore = null;
     private int amount = 0;
-    private Map<Enchantment, Integer> enchantments;
+    private Map<Enchantment, Integer> enchantments = null;
     private String skull = null;
     private UUID skullID = null;
 
