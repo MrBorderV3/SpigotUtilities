@@ -11,13 +11,13 @@ import java.util.*;
 
 public class ItemBuilder {
 
-    private Material type;
-    private String name;
-    private List<String> lore;
+    private Material type = null;
+    private String name = null;
+    private List<String> lore = null;
     private int amount = 0;
     private Map<Enchantment, Integer> enchantments;
-    private String skull;
-    private UUID skullID;
+    private String skull = null;
+    private UUID skullID = null;
 
     public ItemBuilder(){
     }
