@@ -1,4 +1,4 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.file;
 
 import java.io.*;
 

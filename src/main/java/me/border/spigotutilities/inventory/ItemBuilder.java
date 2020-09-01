@@ -1,4 +1,4 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.inventory;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

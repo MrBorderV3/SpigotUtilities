@@ -1,5 +1,6 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.player;
 
+import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

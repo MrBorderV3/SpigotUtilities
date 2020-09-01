@@ -1,4 +1,4 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.file;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

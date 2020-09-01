@@ -1,8 +1,8 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.command;
 
+import me.border.spigotutilities.UtilsMain;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static me.border.spigotutilities.Utils.*;

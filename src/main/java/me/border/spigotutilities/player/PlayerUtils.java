@@ -1,5 +1,6 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.player;
 
+import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;

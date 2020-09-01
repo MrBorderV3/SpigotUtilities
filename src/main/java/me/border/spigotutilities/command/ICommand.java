@@ -1,6 +1,9 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.command;
 
 import com.sun.istack.internal.Nullable;
+import me.border.spigotutilities.player.ChatUtils;
+import me.border.spigotutilities.Utils;
+import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+
+import static me.border.spigotutilities.command.CommandUtils.*;
 
 public abstract class ICommand extends Command {
     protected String cmd_args;
@@ -79,12 +84,12 @@ public abstract class ICommand extends Command {
     public boolean execute(CommandSender arg0, String arg1, String[] arg2) {
         if (this.getPermission() != null) {
             if (!this.getPermission().equals("")) {
-                if (!CommandUtils.permCheck(arg0, this.getPermission()))
+                if (!permCheck(arg0, this.getPermission()))
                     return false;
             }
         }
 
-        if (player && !CommandUtils.playerCheck(arg0)) return false;
+        if (player && !playerCheck(arg0)) return false;
 
         return commandUsed(arg0, arg2);
     }
