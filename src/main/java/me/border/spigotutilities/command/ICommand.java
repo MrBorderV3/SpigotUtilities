@@ -1,8 +1,9 @@
 package me.border.spigotutilities.command;
 
+import com.google.common.cache.AbstractCache;
 import com.sun.istack.internal.Nullable;
-import me.border.spigotutilities.player.ChatUtils;
-import me.border.spigotutilities.Utils;
+import me.border.spigotutilities.baseutils.ChatUtils;
+import me.border.spigotutilities.baseutils.Utils;
 import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -12,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-import static me.border.spigotutilities.command.CommandUtils.*;
+import static me.border.spigotutilities.baseutils.CommandUtils.*;
 
 public abstract class ICommand extends Command {
     protected String cmd_args;

@@ -1,5 +1,6 @@
 package me.border.spigotutilities.inventory;
 
+import me.border.spigotutilities.mojang.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -155,7 +156,11 @@ public class ItemBuilder {
             }
         }
         if (skull != null){
-            meta.setOwningPlayer(Bukkit.getOfflinePlayer(skull));
+            try {
+                meta.setOwningPlayer(Bukkit.getOfflinePlayer(PlayerInfo.getUUID(skull)));
+            } catch (NullPointerException e){
+                Bukkit.getLogger().warning("Failed to create item due to \"" + skull + "\" Not being a valid name");
+            }
         }
         if (skullID != null){
             meta.setOwningPlayer(Bukkit.getOfflinePlayer(skullID));

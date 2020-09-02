@@ -1,4 +1,4 @@
-package me.border.spigotutilities;
+package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
 import org.bukkit.command.CommandExecutor;
@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.border.spigotutilities.player.ChatUtils.*;
+import static me.border.spigotutilities.baseutils.ChatUtils.*;
 
 public class Utils {
     private static JavaPlugin plugin = UtilsMain.getInstance();

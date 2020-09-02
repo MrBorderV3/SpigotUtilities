@@ -2,6 +2,7 @@ package me.border.spigotutilities.mojang.api;
 
 import me.border.spigotutilities.cache.CachedObject;
 import me.border.spigotutilities.mojang.utils.NameCache;
+import me.border.spigotutilities.mojang.utils.Settings;
 import me.border.spigotutilities.mojang.utils.UUIDCache;
 
 import java.util.UUID;

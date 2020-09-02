@@ -1,11 +1,11 @@
-package me.border.spigotutilities.command;
+package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static me.border.spigotutilities.Utils.*;
+import static me.border.spigotutilities.baseutils.Utils.*;
 
 public class CommandUtils {
 

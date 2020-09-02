@@ -1,4 +1,4 @@
-package me.border.spigotutilities.player;
+package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Material;
@@ -9,7 +9,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.BlockIterator;
 
-import static me.border.spigotutilities.Utils.*;
+import static me.border.spigotutilities.baseutils.Utils.*;
 
 public class PlayerUtils {
 
