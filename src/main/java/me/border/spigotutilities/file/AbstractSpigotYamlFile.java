@@ -6,13 +6,13 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class AbstractYamlFile {
+public abstract class AbstractSpigotYamlFile {
 
     private File path;
     private File file;
     private FileConfiguration data;
 
-    public AbstractYamlFile(String file, File path){
+    public AbstractSpigotYamlFile(String file, File path){
         this.path = path;
         this.file = new File(path, file + ".yml");
     }
