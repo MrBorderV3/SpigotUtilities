@@ -1,9 +1,9 @@
 package me.border.spigotutilities.mojang.api;
 
-import me.border.spigotutilities.cache.CachedObject;
-import me.border.spigotutilities.mojang.utils.NameCache;
+import me.border.spigotutilities.mojang.cache.NameCache;
 import me.border.spigotutilities.mojang.utils.Settings;
-import me.border.spigotutilities.mojang.utils.UUIDCache;
+import me.border.spigotutilities.mojang.cache.UUIDCache;
+import me.border.utilities.cache.CachedObject;
 
 import java.util.UUID;
 
@@ -19,12 +19,20 @@ public class MojangCacheManager {
 
     public static String getUsername(UUID uuid){
         Object register = nameCache.getParsedCache(uuid);
-        return (register == null ? null : (String) register);
+        if (register == null) {
+            return null;
+        } else {
+            return (String) register;
+        }
     }
 
     public static UUID getUUID(String name){
         Object register = uuidCache.getParsedCache(name);
-        return (register == null ? null : (UUID) register);
+        if (register == null) {
+            return null;
+        } else {
+            return (UUID) register;
+        }
     }
 
     public static UUIDCache getUUIDCache(){

@@ -14,6 +14,8 @@ public class UtilsMain {
 
     public static void init(JavaPlugin plugin){
         UtilsMain.plugin = plugin;
+        plugin.saveDefaultConfig();
+        plugin.getConfig().options().copyDefaults(true);
         Utils.registerListener(new PlayerJoinHandler());
     }
 }

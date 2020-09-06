@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.border.spigotutilities.utils.URLHandler;
-import me.border.spigotutilities.utils.WebRequest;
+import me.border.utilities.utils.WebRequest;
 
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -34,7 +34,6 @@ public class MojangWebManager {
         if (response.isEmpty()) {
             return null;
         }
-        System.out.println(response);
         JsonElement uuidJsonEle = new JsonParser().parse(response);
         if (WebRequest.isRequestLimit(uuidJsonEle)) {
             return null;

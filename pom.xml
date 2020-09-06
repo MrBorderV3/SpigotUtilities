@@ -59,7 +59,6 @@
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -67,6 +66,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>me.border</groupId>
+            <artifactId>Utilities</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

@@ -1,6 +1,6 @@
-package me.border.spigotutilities.mojang.utils;
+package me.border.spigotutilities.mojang.cache;
 
-import me.border.spigotutilities.cache.AbstractCache;
+import me.border.utilities.cache.AbstractCache;
 
 import java.util.UUID;
 

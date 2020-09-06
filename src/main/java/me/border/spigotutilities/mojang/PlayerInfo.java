@@ -21,8 +21,7 @@ public class PlayerInfo {
             if (tryName != null) {
                 return tryName;
             }
-        } catch (NullPointerException ignored){
-        }
+        } catch (NullPointerException ignored){ }
 
         return MojangWebManager.getUsername(uuid);
     }
@@ -39,8 +38,7 @@ public class PlayerInfo {
             if (tryId != null) {
                 return tryId;
             }
-        } catch (NullPointerException ignored){
-        }
+        } catch (NullPointerException ignored){ }
 
         return MojangWebManager.getUUID(username);
     }

@@ -1,9 +1,8 @@
-package me.border.spigotutilities.mojang.utils;
+package me.border.spigotutilities.mojang.cache;
 
-import me.border.spigotutilities.cache.AbstractCache;
+import me.border.utilities.cache.AbstractCache;
 
 public class UUIDCache extends AbstractCache<String> {
-
     public UUIDCache() {
         super(60000);
     }
