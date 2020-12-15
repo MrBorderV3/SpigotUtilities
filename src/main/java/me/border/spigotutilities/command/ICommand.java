@@ -81,11 +81,9 @@ public abstract class ICommand extends Command {
 
     @Override
     public boolean execute(CommandSender arg0, String arg1, String[] arg2) {
-        if (this.getPermission() != null) {
-            if (!this.getPermission().equals("")) {
-                if (!permCheck(arg0, this.getPermission()))
-                    return false;
-            }
+        if (this.getPermission() != null && !this.getPermission().equals("")) {
+            if (!permCheck(arg0, this.getPermission()))
+                return false;
         }
 
         if (player && !playerCheck(arg0)) return false;

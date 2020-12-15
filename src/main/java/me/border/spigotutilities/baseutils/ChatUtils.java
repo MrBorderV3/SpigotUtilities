@@ -1,19 +1,15 @@
 package me.border.spigotutilities.baseutils;
 
-import me.border.spigotutilities.UtilsMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
 import static me.border.spigotutilities.baseutils.Utils.*;
 
 public class ChatUtils {
-
-    private static JavaPlugin plugin = UtilsMain.getInstance();
 
     public static String colorize(String s) {
         return ChatColor.translateAlternateColorCodes('&', s);

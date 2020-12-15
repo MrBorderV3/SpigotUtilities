@@ -79,12 +79,6 @@ public class Utils {
         return newList;
     }
 
-    public static JavaPlugin initializePlugin(){
-        plugin.saveDefaultConfig();
-        plugin.getConfig().options().copyDefaults(true);
-        return plugin;
-    }
-
     public static void registerCommand(CommandExecutor commandExecutor, String command) {
         plugin.getCommand(command).setExecutor(commandExecutor);
     }

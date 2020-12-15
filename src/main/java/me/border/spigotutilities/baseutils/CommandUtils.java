@@ -9,8 +9,6 @@ import static me.border.spigotutilities.baseutils.Utils.*;
 
 public class CommandUtils {
 
-    private static JavaPlugin plugin = UtilsMain.getInstance();
-
     // Check if the args are right, returns true/false.
     public static boolean argsCheck(CommandSender sender, int allowed, String[] args) {
         if (args.length != allowed) {

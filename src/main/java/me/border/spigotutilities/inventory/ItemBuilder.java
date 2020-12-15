@@ -1,5 +1,6 @@
 package me.border.spigotutilities.inventory;
 
+import me.border.spigotutilities.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,6 +13,8 @@ import java.util.*;
 
 public class ItemBuilder {
 
+    private static final Enchantment glowEnchantment = UtilsMain.registerGlowEnchantment();
+
     private Material type = null;
     private String name = null;
     private List<String> lore = null;
@@ -19,6 +22,7 @@ public class ItemBuilder {
     private Map<Enchantment, Integer> enchantments = null;
     private String skull = null;
     private UUID skullID = null;
+    private boolean glowing = false;
 
     public ItemBuilder(){
     }
@@ -54,72 +58,91 @@ public class ItemBuilder {
         }
     }
 
-    public void setType(Material type){
+    public ItemBuilder setType(Material type){
         this.type = type;
+        return this;
     }
 
     public Material getType(){
         return type;
     }
 
-    public void setName(String name){
+    public ItemBuilder setName(String name){
         this.name = name;
+        return this;
     }
 
     public String getName(){
         return name;
     }
 
-    public void setLore(List<String> lore){
+    public ItemBuilder setLore(List<String> lore){
         this.lore = lore;
+        return this;
     }
 
-    public void addLine(String line){
+    public ItemBuilder addLine(String line){
         if (lore == null)
             lore = new ArrayList<>();
         this.lore.add(line);
+        return this;
     }
 
     public List<String> getLore(){
         return lore;
     }
 
-    public void setAmount(int amount){
+    public ItemBuilder setAmount(int amount){
         this.amount = amount;
+        return this;
     }
 
     public int getAmount(){
         return amount;
+
     }
 
-    public void setEnchantments(Map<Enchantment, Integer> enchantments){
+    public ItemBuilder setEnchantments(Map<Enchantment, Integer> enchantments){
         this.enchantments = enchantments;
+        return this;
     }
 
-    public void addEnchantment(Enchantment enchantment, int level){
+    public ItemBuilder setGlowing(boolean glowing){
+        this.glowing = glowing;
+        return this;
+    }
+
+    public ItemBuilder addEnchantment(Enchantment enchantment, int level){
         if (enchantments == null)
             this.enchantments = new HashMap<>();
         this.enchantments.put(enchantment, level);
+        return this;
     }
 
     public Map<Enchantment, Integer> getEnchantments(){
         return this.enchantments;
     }
 
-    public void setSkull(String name){
+    public ItemBuilder setSkull(String name){
         this.skull = skull;
+        return this;
     }
 
     public String getSkull(){
         return skull;
     }
 
-    public void setSkullID(UUID uuid){
+    public ItemBuilder setSkullID(UUID uuid){
         this.skullID = uuid;
+        return this;
     }
 
     public UUID getSkullID(){
         return skullID;
+    }
+
+    public boolean isGlowing() {
+        return glowing;
     }
 
     public ItemStack build(){
@@ -135,6 +158,9 @@ public class ItemBuilder {
             for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()){
                 meta.addEnchant(entry.getKey(), entry.getValue(), false);
             }
+        }
+        if (glowing){
+            itemStack.addUnsafeEnchantment(glowEnchantment, 0);
         }
         itemStack.setItemMeta(meta);
 
