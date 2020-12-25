@@ -45,15 +45,17 @@ public class ItemBuilder {
         this(itemStack.getType());
         setAmount(itemStack.getAmount());
         if (itemStack.hasItemMeta()){
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            if (itemMeta.hasDisplayName()){
-                setName(itemMeta.getDisplayName());
-            }
-            if (itemMeta.hasLore()){
-                setLore(itemMeta.getLore());
-            }
-            if (itemMeta.hasEnchants()){
-                setEnchantments(itemMeta.getEnchants());
+            if (itemStack.hasItemMeta()) {
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                if (itemMeta.hasDisplayName()) {
+                    setName(itemMeta.getDisplayName());
+                }
+                if (itemMeta.hasLore()) {
+                    setLore(itemMeta.getLore());
+                }
+                if (itemMeta.hasEnchants()) {
+                    setEnchantments(itemMeta.getEnchants());
+                }
             }
         }
     }

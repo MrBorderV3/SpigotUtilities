@@ -1,6 +1,7 @@
 package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -77,6 +78,10 @@ public class Utils {
             newList.add(colorize(listLine));
         }
         return newList;
+    }
+
+    public static void runLater(Runnable runnable, long ticks) {
+        Bukkit.getScheduler().runTaskLater(plugin, runnable, ticks);
     }
 
     public static void registerCommand(CommandExecutor commandExecutor, String command) {
