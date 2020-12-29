@@ -5,14 +5,20 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public abstract class AbstractSpigotYamlFile {
+
+    private static final Set<AbstractSpigotYamlFile> files = new HashSet<>();
 
     private File path;
     private File file;
     private FileConfiguration data;
 
     public AbstractSpigotYamlFile(String file, File path){
+        files.add(this);
         this.path = path;
         this.file = new File(path, file + ".yml");
     }
@@ -54,5 +60,13 @@ public abstract class AbstractSpigotYamlFile {
 
     public File getFile() {
         return file;
+    }
+
+    public static void setupAll(){
+        files.forEach(AbstractSpigotYamlFile::setup);
+    }
+
+    public static void saveAll(){
+        files.forEach(AbstractSpigotYamlFile::save);
     }
 }

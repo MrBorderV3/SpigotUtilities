@@ -54,6 +54,17 @@
 
     </build>
 
+    <distributionManagement>
+        <repository>
+            <id>utilities.write</id>
+            <url>https://mymavenrepo.com/repo/sua3AP1ItDvUgpgdiGCW/</url>
+        </repository>
+        <snapshotRepository>
+            <id>utilities.write</id>
+            <url>https://mymavenrepo.com/repo/sua3AP1ItDvUgpgdiGCW/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>spigotmc-repo</id>
