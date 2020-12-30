@@ -7,14 +7,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public abstract class AbstractSpigotYamlFile {
 
     private static final Set<AbstractSpigotYamlFile> files = new HashSet<>();
 
-    private File path;
-    private File file;
+    private final File path;
+    private final File file;
     private FileConfiguration data;
 
     public AbstractSpigotYamlFile(String file, File path){
@@ -42,13 +41,19 @@ public abstract class AbstractSpigotYamlFile {
         return this.data;
     }
 
-    public void save(){
+
+    public void save() throws Exception {
+        this.data.save(this.file);
+    }
+
+    public void saveSilently(){
         try {
-            this.data.save(this.file);
-        } catch (IOException e){
+            save();
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
+
 
     public void reload(){
         this.data = YamlConfiguration.loadConfiguration(file);
@@ -67,6 +72,6 @@ public abstract class AbstractSpigotYamlFile {
     }
 
     public static void saveAll(){
-        files.forEach(AbstractSpigotYamlFile::save);
+        files.forEach(AbstractSpigotYamlFile::saveSilently);
     }
 }
