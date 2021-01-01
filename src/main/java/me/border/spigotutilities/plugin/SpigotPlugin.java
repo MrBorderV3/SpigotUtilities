@@ -25,11 +25,6 @@ public abstract class SpigotPlugin extends JavaPlugin {
         super();
     }
 
-    public SpigotPlugin(EnumSet<Setting> settings){
-        super();
-        this.settings = settings;
-    }
-
     protected void load() {}
     protected void enable() {}
     protected void disable() {}
@@ -55,19 +50,19 @@ public abstract class SpigotPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         this.terminableRegistry = CompositeTerminable.create();
+        this.settings = EnumSet.noneOf(Setting.class);
 
         load();
     }
 
     @Override
     public void onDisable() {
+        this.terminableRegistry.closeSilently();
+        disable();
         if (settings.contains(Setting.SAVE_RESOURCES)) {
             AbstractSpigotYamlFile.saveAll();
             AbstractSerializedFile.saveAll();
         }
-
-        this.terminableRegistry.closeSilently();
-        disable();
     }
 
     public <T extends Terminable> T bind(T terminable) {
@@ -87,7 +82,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
         return getServer().getPluginManager().getPlugin(name) != null;
     }
 
-    private File getRelativeFile(String name) {
+    public File getRelativeFile(String name) {
         getDataFolder().mkdirs();
         return new File(getDataFolder(), name);
     }
