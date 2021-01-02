@@ -1,9 +1,11 @@
 package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -51,5 +53,32 @@ public class PlayerUtils {
         }
 
         return lastBlock;
+    }
+
+    /**
+     * Get the highest safe two air block space in a location
+     *
+     * @param loc The location to search
+     * @return The y coordinate of the block. Returns -1 if non found.
+     */
+    public static int getHighestSafeBlock(Location loc){
+        boolean foundAir = false;
+        for (int i = 128; i >= 0; i--){
+            Location tempLoc = new Location(loc.getWorld(), loc.getX(), i, loc.getZ());
+            if (tempLoc.getBlock().getType() == Material.AIR){
+                if (foundAir) {
+                    Block under = tempLoc.getBlock().getRelative(BlockFace.DOWN);
+                    if (under.getType().isSolid() && under.getType() != Material.LAVA && under.getType().isBlock()) {
+                        return i;
+                    }
+                } else {
+                    foundAir = true;
+                }
+            } else {
+                foundAir = false;
+            }
+        }
+
+        return -1;
     }
 }
