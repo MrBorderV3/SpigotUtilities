@@ -9,6 +9,16 @@ import java.util.UUID;
 
 public class PlayerInfo {
 
+    /**
+     * Get a name of a player using their uuid.
+     *
+     * This method first searches the player in the server, if they are found it caches their data and returns.
+     * The method will then search in the cache, if they are found it will return.
+     * Lastly the method will use the mojang api {@link MojangWebManager} to get the name of the player with the given uuid.
+     *
+     * @param uuid The uuid.
+     * @return The name of the player.
+     */
     public static String getName(UUID uuid){
         Player player = Bukkit.getPlayer(uuid);
         if (player != null){

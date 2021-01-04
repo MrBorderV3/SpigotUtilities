@@ -1,5 +1,13 @@
 package me.border.spigotutilities.plugin;
 
 public enum Setting {
-    SAVE_RESOURCES, SETUP_RESOURCES;
+    /**
+     * Automatic saving of resources at {@link SpigotPlugin#onDisable()}
+     */
+    SAVE_RESOURCES,
+
+    /**
+     * Automatic setup of resources at {@link SpigotPlugin#onEnable()}
+      */
+    SETUP_RESOURCES;
 }
