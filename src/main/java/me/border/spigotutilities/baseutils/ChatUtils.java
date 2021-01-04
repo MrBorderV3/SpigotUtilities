@@ -9,6 +9,9 @@ import java.util.List;
 
 import static me.border.spigotutilities.baseutils.Utils.*;
 
+/**
+ * Chat related utilities.
+ */
 public class ChatUtils {
 
     public static String colorize(String s) {

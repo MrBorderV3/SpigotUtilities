@@ -2,9 +2,8 @@ package me.border.spigotutilities.plugin;
 
 import me.border.spigotutilities.UtilsMain;
 import me.border.spigotutilities.file.AbstractSpigotYamlFile;
-import me.border.spigotutilities.task.Schedulers;
+import me.border.spigotutilities.task.TaskBuilder;
 import me.border.utilities.file.AbstractSerializedFile;
-import me.border.utilities.terminable.Terminable;
 import me.border.utilities.terminable.composite.CompositeTerminable;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
@@ -20,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  *
  * {@link Setting} Allows for automation of certain features. Settings should only be added in the {@link #load()} method.
  *
- * {@code terminableRegistry} Allows for binding of {@link Terminable}s using the {@link #bind(Terminable)} method. The terminables are
+ * {@code terminableRegistry} Allows for binding of {@link AutoCloseable}s using the {@link #bind(AutoCloseable)} method. The closeables are
  * {@link CompositeTerminable#cleanup()}ed every 30 seconds and closed during the {@link #onDisable()}.
  */
 public abstract class SpigotPlugin extends JavaPlugin {
@@ -41,7 +40,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
         UtilsMain.init(instance);
-        Schedulers.newBuilder()
+        TaskBuilder.builder()
                 .async()
                 .after(15, TimeUnit.SECONDS)
                 .every(30, TimeUnit.SECONDS)

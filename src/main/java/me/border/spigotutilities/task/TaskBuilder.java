@@ -1,11 +1,19 @@
 package me.border.spigotutilities.task;
 
 import me.border.spigotutilities.UtilsMain;
+import me.border.utilities.interfaces.Builder;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
 
-public class TaskBuilder {
+/**
+ * A {@link Builder} class to allow easier creation of {@link BukkitRunnable} tasks
+ */
+public class TaskBuilder implements Builder<BukkitRunnable> {
+
+    public static TaskBuilder builder(){
+        return new TaskBuilder();
+    }
 
     private Type type = Type.NORMAL;
 
@@ -14,7 +22,7 @@ public class TaskBuilder {
     private Runnable runnable;
     private boolean async = false;
 
-    protected TaskBuilder(){ }
+    private TaskBuilder(){ }
 
     public TaskBuilder async(){
         async = true;

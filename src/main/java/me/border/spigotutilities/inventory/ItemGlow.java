@@ -5,6 +5,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Dummy enchantment class to allow glowing of items without adding an actual visual enchantment.
+ *
+ * Can only be used through {@link ItemBuilder#setGlowing(boolean)}.
+ */
 public class ItemGlow extends Enchantment {
     public ItemGlow(NamespacedKey id) {
         super(id);

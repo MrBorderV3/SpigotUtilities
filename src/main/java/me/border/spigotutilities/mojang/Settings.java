@@ -1,4 +1,4 @@
-package me.border.spigotutilities.mojang.utils;
+package me.border.spigotutilities.mojang;
 
 public class Settings {
     public static int UUID_EXPIRE = 30;

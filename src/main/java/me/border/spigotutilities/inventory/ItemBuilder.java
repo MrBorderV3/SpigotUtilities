@@ -2,6 +2,7 @@ package me.border.spigotutilities.inventory;
 
 import me.border.spigotutilities.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
+import me.border.utilities.interfaces.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -11,7 +12,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
-public class ItemBuilder {
+/**
+ * A {@link Builder} for easier creation of {@link ItemStack}s
+ */
+public class ItemBuilder implements Builder<ItemStack> {
 
     private static final Enchantment glowEnchantment = UtilsMain.registerGlowEnchantment();
 
@@ -147,7 +151,7 @@ public class ItemBuilder {
         return glowing;
     }
 
-    public ItemStack build(){
+    public ItemStack build() {
         ItemStack itemStack = new ItemStack(type, amount == 0 ? 1 : amount);
         ItemMeta meta = itemStack.getItemMeta();
         if (name != null){

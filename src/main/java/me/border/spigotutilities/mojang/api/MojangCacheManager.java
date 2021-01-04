@@ -1,6 +1,6 @@
 package me.border.spigotutilities.mojang.api;
 
-import me.border.spigotutilities.mojang.utils.Settings;
+import me.border.spigotutilities.mojang.Settings;
 import me.border.utilities.cache.Cache;
 import me.border.utilities.cache.CachedObject;
 import me.border.utilities.cache.ExpiringCache;
