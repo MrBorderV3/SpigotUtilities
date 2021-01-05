@@ -8,6 +8,7 @@ import me.border.utilities.terminable.composite.CompositeTerminable;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.EnumSet;
@@ -44,7 +45,12 @@ public abstract class SpigotPlugin extends JavaPlugin {
                 .async()
                 .after(15, TimeUnit.SECONDS)
                 .every(30, TimeUnit.SECONDS)
-                .run(terminableRegistry::cleanup)
+                .run(new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        terminableRegistry.cleanup();
+                    }
+                })
                 .run();
         if (settings.contains(Setting.SETUP_RESOURCES)){
             AbstractSpigotYamlFile.setupAll();

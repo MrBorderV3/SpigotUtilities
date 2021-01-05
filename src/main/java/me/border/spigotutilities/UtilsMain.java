@@ -24,46 +24,4 @@ public class UtilsMain {
         plugin.getConfig().options().copyDefaults(true);
         Utils.registerListener(new PlayerJoinHandler());
     }
-
-    public static Enchantment registerGlowEnchantment(){
-        Enchantment glow = Enchantment.getByKey(new NamespacedKey(plugin, "Glow"));
-        if (glow != null) {
-            if (glow.getKey().getKey().equals("Glow")) {
-                return glow;
-            }
-        }
-
-        Field f;
-        boolean forced = false;
-        if (!Enchantment.isAcceptingRegistrations()) {
-            try {
-                f = Enchantment.class.getDeclaredField("acceptingNew");
-                f.setAccessible(true);
-                f.set(null, true);
-                forced = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            glow = new ItemGlow(new NamespacedKey(plugin, "Glow"));
-            Enchantment.registerEnchantment(glow);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (forced) {
-            try {
-                f = Enchantment.class.getDeclaredField("acceptingNew");
-                f.set(null, false);
-                f.setAccessible(false);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return glow;
-    }
 }

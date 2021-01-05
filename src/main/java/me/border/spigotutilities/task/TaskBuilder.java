@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * A {@link Builder} class to allow easier creation of {@link BukkitRunnable} tasks
  */
-public class TaskBuilder implements Builder<BukkitRunnable> {
+public class TaskBuilder implements Builder<Void> {
 
     public static TaskBuilder builder(){
         return new TaskBuilder();
@@ -19,7 +19,7 @@ public class TaskBuilder implements Builder<BukkitRunnable> {
 
     private long after;
     private long every;
-    private Runnable runnable;
+    private BukkitRunnable runnable;
     private boolean async = false;
 
     private TaskBuilder(){ }
@@ -34,7 +34,7 @@ public class TaskBuilder implements Builder<BukkitRunnable> {
         return this;
     }
 
-    public TaskBuilder run(Runnable runnable){
+    public TaskBuilder run(BukkitRunnable runnable){
         this.runnable = runnable;
         return this;
     }
@@ -56,33 +56,34 @@ public class TaskBuilder implements Builder<BukkitRunnable> {
         return this;
     }
 
-    public BukkitRunnable build(){
-        return new BukkitRunnable() {
-            @Override
-            public void run() {
-                runnable.run();
-            }
-        };
+    public Void build(){
+        return null;
     }
 
     public void run(){
         if (async) {
             switch (type) {
                 case NORMAL:
-                    build().runTaskAsynchronously(UtilsMain.getInstance());
+                    runnable.runTaskAsynchronously(UtilsMain.getInstance());
+                    break;
                 case LATER:
-                    build().runTaskLaterAsynchronously(UtilsMain.getInstance(), after);
+                    runnable.runTaskLaterAsynchronously(UtilsMain.getInstance(), after);
+                    break;
                 case REPEATING:
-                    build().runTaskTimerAsynchronously(UtilsMain.getInstance(), after, every);
+                    runnable.runTaskTimerAsynchronously(UtilsMain.getInstance(), after, every);
+                    break;
             }
         } else {
             switch (type) {
                 case NORMAL:
-                    build().runTask(UtilsMain.getInstance());
+                    runnable.runTask(UtilsMain.getInstance());
+                    break;
                 case LATER:
-                    build().runTaskLater(UtilsMain.getInstance(), after);
+                    runnable.runTaskLater(UtilsMain.getInstance(), after);
+                    break;
                 case REPEATING:
-                    build().runTaskTimer(UtilsMain.getInstance(), after, every);
+                    runnable.runTaskTimer(UtilsMain.getInstance(), after, every);
+                    break;
             }
         }
     }

@@ -5,11 +5,13 @@ import me.border.spigotutilities.mojang.PlayerInfo;
 import me.border.utilities.interfaces.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -17,7 +19,11 @@ import java.util.*;
  */
 public class ItemBuilder implements Builder<ItemStack> {
 
-    private static final Enchantment glowEnchantment = UtilsMain.registerGlowEnchantment();
+    public static void registerGlow(){
+        glowEnchantment = registerGlowEnchantment();
+    }
+
+    private static Enchantment glowEnchantment;
 
     private Material type = null;
     private String name = null;
@@ -200,5 +206,94 @@ public class ItemBuilder implements Builder<ItemStack> {
         itemStack.setItemMeta(meta);
 
         return itemStack;
+    }
+
+    /**
+     * Compares two ItemStacks based on their name, lore, and type
+     *
+     * @param o First ItemStack
+     * @param o2 Second ItemStack
+     *
+     * @return Whether the items' name, lore, and type matched
+     */
+    public static boolean compareItems(ItemStack o, ItemStack o2){
+        if (!o.getType().equals(o2.getType()))
+            return false;
+
+        if (o.hasItemMeta() != o2.hasItemMeta())
+            return false;
+        if (o.hasItemMeta()){
+            ItemMeta oMeta = o.getItemMeta();
+            ItemMeta o2Meta = o2.getItemMeta();
+
+            if (oMeta.hasDisplayName() != o2Meta.hasDisplayName())
+                return false;
+            if (oMeta.hasDisplayName()) {
+                String oName = oMeta.getDisplayName();
+                String o2Name = o2Meta.getDisplayName();
+                if (!oName.equals(o2Name))
+                    return false;
+            }
+
+            if (oMeta.hasLore() != o2Meta.hasLore())
+                return false;
+            if (oMeta.hasLore()) {
+                List<String> oLore = oMeta.getLore();
+                List<String> o2Lore = o2Meta.getLore();
+                if (oLore.size() != o2Lore.size())
+                    return false;
+                int line = 0;
+                for (String oLine : oLore){
+                    String o2Line = o2Lore.get(line);
+                    if (!o2Line.equals(oLine))
+                        return false;
+                    line++;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static Enchantment registerGlowEnchantment(){
+        Enchantment glow = Enchantment.getByKey(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
+        if (glow != null) {
+            if (glow.getKey().getKey().equals("Glow")) {
+                return glow;
+            }
+        }
+
+        Field f;
+        boolean forced = false;
+        if (!Enchantment.isAcceptingRegistrations()) {
+            try {
+                f = Enchantment.class.getDeclaredField("acceptingNew");
+                f.setAccessible(true);
+                f.set(null, true);
+                forced = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            glow = new ItemGlow(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
+            Enchantment.registerEnchantment(glow);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (forced) {
+            try {
+                f = Enchantment.class.getDeclaredField("acceptingNew");
+                f.set(null, false);
+                f.setAccessible(false);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return glow;
     }
 }
