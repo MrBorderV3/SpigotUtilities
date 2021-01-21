@@ -40,7 +40,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        UtilsMain.init(instance);
+        UtilsMain.init(instance, settings.contains(Setting.PLAYER_INFO));
         TaskBuilder.builder()
                 .async()
                 .after(15, TimeUnit.SECONDS)
