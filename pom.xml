@@ -109,6 +109,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>7.8.0</version>
+        </dependency>
+        <dependency>
             <groupId>me.border</groupId>
             <artifactId>Utilities</artifactId>
             <version>2.2</version>
@@ -116,7 +121,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
