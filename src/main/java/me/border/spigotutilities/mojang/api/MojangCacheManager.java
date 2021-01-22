@@ -9,8 +9,13 @@ import java.util.UUID;
 
 public class MojangCacheManager {
 
-    private static final Cache<String> uuidCache = new ExpiringCache<>();
-    private static final Cache<UUID> nameCache = new ExpiringCache<>();
+    private static Cache<String> uuidCache;
+    private static Cache<UUID> nameCache;
+
+    public static void init(){
+        uuidCache = new ExpiringCache<>();
+        nameCache = new ExpiringCache<>();
+    }
 
     public static void updateCache(UUID uuid, String name){
         uuidCache.cache(name, new CachedObject(uuid, Settings.UUID_EXPIRE));

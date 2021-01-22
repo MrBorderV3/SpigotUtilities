@@ -7,6 +7,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinHandler implements Listener {
 
+    public PlayerJoinHandler(){
+        MojangCacheManager.init();
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         MojangCacheManager.updateCache(e.getPlayer().getUniqueId(), e.getPlayer().getName());

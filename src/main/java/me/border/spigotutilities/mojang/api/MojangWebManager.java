@@ -17,7 +17,7 @@ public class MojangWebManager {
         if (response.isEmpty()) {
             return null;
         }
-        JsonElement usernameJsonEle = new JsonParser().parse(response);
+        JsonElement usernameJsonEle = JsonParser.parseString(response);
         if (WebRequest.isRequestLimit(usernameJsonEle)) {
             return null;
         }
@@ -34,7 +34,7 @@ public class MojangWebManager {
         if (response.isEmpty()) {
             return null;
         }
-        JsonElement uuidJsonEle = new JsonParser().parse(response);
+        JsonElement uuidJsonEle = JsonParser.parseString(response);
         if (WebRequest.isRequestLimit(uuidJsonEle)) {
             return null;
         }
