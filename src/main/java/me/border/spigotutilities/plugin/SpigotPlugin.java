@@ -45,7 +45,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
                 .async()
                 .after(15, TimeUnit.SECONDS)
                 .every(30, TimeUnit.SECONDS)
-                .run(new BukkitRunnable() {
+                .runnable(new BukkitRunnable() {
                     @Override
                     public void run() {
                         terminableRegistry.cleanup();

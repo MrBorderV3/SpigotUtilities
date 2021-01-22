@@ -34,8 +34,20 @@ public class TaskBuilder implements Builder<Void> {
         return this;
     }
 
-    public TaskBuilder run(BukkitRunnable runnable){
+    public TaskBuilder runnable(BukkitRunnable runnable){
         this.runnable = runnable;
+        return this;
+    }
+
+    public TaskBuilder after(long ticks){
+        this.after = ticks;
+        this.type = Type.LATER;
+        return this;
+    }
+
+    public TaskBuilder every(long ticks){
+        this.every = ticks;
+        this.type = Type.REPEATING;
         return this;
     }
 
