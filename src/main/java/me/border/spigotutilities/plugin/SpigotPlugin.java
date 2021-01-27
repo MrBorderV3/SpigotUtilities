@@ -116,7 +116,8 @@ public abstract class SpigotPlugin extends JavaPlugin {
      */
     public void registerListener(Listener listener){
         getServer().getPluginManager().registerEvents(listener, this);
-        listeners.add(listener);
+        if (saveEntities)
+            listeners.add(listener);
     }
 
     /**
