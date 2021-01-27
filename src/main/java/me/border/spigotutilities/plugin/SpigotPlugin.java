@@ -1,18 +1,22 @@
 package me.border.spigotutilities.plugin;
 
 import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.command.ICommand;
 import me.border.spigotutilities.file.AbstractSpigotYamlFile;
 import me.border.spigotutilities.task.TaskBuilder;
 import me.border.utilities.file.AbstractSerializedFile;
 import me.border.utilities.terminable.composite.CompositeTerminable;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,7 +28,12 @@ import java.util.concurrent.TimeUnit;
  * {@link CompositeTerminable#cleanup()}ed every 30 seconds and closed during the {@link #onDisable()}.
  */
 public abstract class SpigotPlugin extends JavaPlugin {
+    private static boolean used = false;
     private static SpigotPlugin instance;
+
+    private boolean saveEntities;
+    private List<Command> commands;
+    private List<Listener> listeners;
 
     private EnumSet<Setting> settings;
     private CompositeTerminable terminableRegistry;
@@ -62,10 +71,17 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
+        used = true;
         this.terminableRegistry = CompositeTerminable.create();
         this.settings = EnumSet.noneOf(Setting.class);
 
         load();
+
+        this.saveEntities = !settings.contains(Setting.DISABLE_ENTITY_REFERENCE);
+        if (saveEntities){
+            commands = new ArrayList<>();
+            listeners = new ArrayList<>();
+        }
     }
 
     @Override
@@ -76,6 +92,8 @@ public abstract class SpigotPlugin extends JavaPlugin {
             AbstractSpigotYamlFile.saveAll();
             AbstractSerializedFile.saveAll();
         }
+
+        used = false;
     }
 
     /**
@@ -97,8 +115,8 @@ public abstract class SpigotPlugin extends JavaPlugin {
      * @param listener The listener to register.
      */
     public void registerListener(Listener listener){
-        Objects.requireNonNull(listener, "listener");
         getServer().getPluginManager().registerEvents(listener, this);
+        listeners.add(listener);
     }
 
     /**
@@ -108,7 +126,39 @@ public abstract class SpigotPlugin extends JavaPlugin {
      * @param cmd The name of the command.
      */
     public void registerCommand(CommandExecutor executor, String cmd){
-        getCommand(cmd).setExecutor(executor);
+        PluginCommand pluginCommand = getCommand(cmd);
+        pluginCommand.setExecutor(executor);
+        if (saveEntities)
+            commands.add(pluginCommand);
+    }
+
+    /**
+     * Util method to register a {@link ICommand}
+     * Only use this if {@link me.border.spigotutilities.plugin.Setting#DISABLE_ENTITY_REFERENCE} is not used
+     *
+     * @param cmd The command.
+     */
+    public void registerCommand(ICommand cmd){
+        if (saveEntities)
+            commands.add(cmd);
+    }
+
+    /**
+     * Get all the commands registered by this plugin. this will not work if {@link Setting#DISABLE_ENTITY_REFERENCE} is used
+     *
+     * @return {@link ArrayList} containing all the commands
+     */
+    public List<Command> getCommands() {
+        return commands;
+    }
+
+    /**
+     * Get all the listeners registered by this plugin. this will not work if {@link Setting#DISABLE_ENTITY_REFERENCE} is used
+     *
+     * @return {@link ArrayList} containing all the listeners
+     */
+    public List<Listener> getListeners() {
+        return listeners;
     }
 
     /**
@@ -140,6 +190,15 @@ public abstract class SpigotPlugin extends JavaPlugin {
      */
     public EnumSet<Setting> getSettings() {
         return settings;
+    }
+
+    /**
+     * Get whether SpigotPlugin is being used or not
+     *
+     * @return {@code true} if its used {@code false} if it isn't.
+     */
+    public static boolean isUsed() {
+        return used;
     }
 
     /**

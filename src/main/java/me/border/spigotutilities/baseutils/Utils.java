@@ -1,9 +1,12 @@
 package me.border.spigotutilities.baseutils;
 
 import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.command.ICommand;
+import me.border.spigotutilities.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -80,15 +83,62 @@ public class Utils {
         return newList;
     }
 
-    public static void runLater(Runnable runnable, long ticks) {
-        Bukkit.getScheduler().runTaskLater(plugin, runnable, ticks);
+    /**
+     * Util method to run a {@link org.bukkit.scheduler.BukkitScheduler#runTaskTimer(Plugin, Runnable, long, long)} repeating task
+     *
+     * @param runnable Task to run
+     * @param after After how much ticks it should run
+     * @param every Every how much ticks it should run
+     */
+    public static void runRepeating(Runnable runnable, long after, long every){
+        Bukkit.getScheduler().runTaskTimer(plugin, runnable, after, every);
     }
 
+    /**
+     * Util method to run a {@link org.bukkit.scheduler.BukkitScheduler#runTaskLater(Plugin, Runnable, long)} later task
+     *
+     * @param runnable Task to run
+     * @param after After how much ticks it should run
+     */
+    public static void runLater(Runnable runnable, long after) {
+        Bukkit.getScheduler().runTaskLater(plugin, runnable, after);
+    }
+
+    /**
+     * Util method to register a {@link CommandExecutor} command
+     *
+     * @param commandExecutor The command executor
+     * @param command The command name
+     */
     public static void registerCommand(CommandExecutor commandExecutor, String command) {
-        plugin.getCommand(command).setExecutor(commandExecutor);
+        if (SpigotPlugin.isUsed()){
+            SpigotPlugin.getInstance().registerCommand(commandExecutor, command);
+        } else {
+            plugin.getCommand(command).setExecutor(commandExecutor);
+        }
     }
 
+    /**
+     * This should only be used if {@link SpigotPlugin} is being used.
+     *
+     * @see SpigotPlugin#registerCommand(ICommand)
+     */
+    public static void registerCommand(ICommand command){
+        if (SpigotPlugin.isUsed()) {
+            SpigotPlugin.getInstance().registerCommand(command);
+        }
+    }
+
+    /**
+     * Util method to register a {@link Listener}
+     *
+     * @param listener The listener to register
+     */
     public static void registerListener(Listener listener){
-        plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        if (SpigotPlugin.isUsed()){
+            SpigotPlugin.getInstance().registerListener(listener);
+        } else {
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        }
     }
 }

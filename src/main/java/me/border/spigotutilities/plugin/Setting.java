@@ -16,5 +16,10 @@ public enum Setting {
     /**
      * Automatic initialization of {@link PlayerInfo} class.
      */
-    PLAYER_INFO
+    PLAYER_INFO,
+
+    /**
+     * Disable saving references of {@link org.bukkit.command.Command} and {@link org.bukkit.event.Listener} entites.
+     */
+    DISABLE_ENTITY_REFERENCE
 }

@@ -1,7 +1,5 @@
 package me.border.spigotutilities;
 
-import me.border.spigotutilities.mojang.listener.PlayerJoinHandler;
-import me.border.spigotutilities.baseutils.Utils;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class UtilsMain {
@@ -21,6 +19,6 @@ public class UtilsMain {
         plugin.saveDefaultConfig();
         plugin.getConfig().options().copyDefaults(true);
         if (usePlayerInfo)
-            Utils.registerListener(new PlayerJoinHandler());
+            PlayerInfoAdapter.init();
     }
 }
