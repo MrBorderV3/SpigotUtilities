@@ -2,7 +2,7 @@ package me.border.spigotutilities.mojang;
 
 import me.border.spigotutilities.mojang.api.MojangCacheManager;
 import me.border.spigotutilities.mojang.api.MojangWebManager;
-import me.border.utilities.cache.Cache;
+import me.border.utilities.cache.CacheMap;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * This class is the public API class for plugins to use to replace bukkit's {@link OfflinePlayer#getName()} and {@link OfflinePlayer#getUniqueId()}.
- * Improving it by using a {@link Cache} system and making sure the player isn't online first before resorting to using the Mojang API.
+ * Improving it by using a {@link CacheMap} system and making sure the player isn't online first before resorting to using the Mojang API.
  * If the system resorts into its last stop (Using the Mojang API) it will update the received data in the cache beforehand for easier access if the player is queued again.
  */
 public class PlayerInfo {

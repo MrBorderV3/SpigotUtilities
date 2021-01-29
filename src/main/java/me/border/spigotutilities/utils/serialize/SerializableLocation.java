@@ -1,9 +1,8 @@
 package me.border.spigotutilities.utils.serialize;
 
-import me.border.utilities.cache.Cache;
+import me.border.utilities.cache.CacheMap;
 import me.border.utilities.cache.Cacheable;
-import me.border.utilities.cache.CachedObject;
-import me.border.utilities.cache.ExpiringCache;
+import me.border.utilities.cache.ExpiringCacheMap;
 import org.bukkit.Location;
 
 import java.io.Serializable;
@@ -15,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SerializableLocation implements Serializable {
 
-    private static final Cache<Integer> locationCache = new ExpiringCache<>(60, TimeUnit.SECONDS);
+    private static final CacheMap<Integer> locationCache = new ExpiringCacheMap<>(60, TimeUnit.SECONDS);
 
     private final double x;
     private final double y;
@@ -34,7 +33,7 @@ public class SerializableLocation implements Serializable {
         Cacheable cacheable = locationCache.get(hash);
         if (cacheable == null) {
             SerializableLocation serializableLocation = new SerializableLocation(x, y, z);
-            locationCache.cache(hash, new CachedObject(serializableLocation, 15));
+            locationCache.cache(hash, serializableLocation, 15);
             return serializableLocation;
         }
 

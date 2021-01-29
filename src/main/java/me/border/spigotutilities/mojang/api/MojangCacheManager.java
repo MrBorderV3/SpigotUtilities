@@ -1,25 +1,24 @@
 package me.border.spigotutilities.mojang.api;
 
 import me.border.spigotutilities.mojang.Settings;
-import me.border.utilities.cache.Cache;
-import me.border.utilities.cache.CachedObject;
-import me.border.utilities.cache.ExpiringCache;
+import me.border.utilities.cache.CacheMap;
+import me.border.utilities.cache.ExpiringCacheMap;
 
 import java.util.UUID;
 
 public class MojangCacheManager {
 
-    private static Cache<String> uuidCache;
-    private static Cache<UUID> nameCache;
+    private static CacheMap<String> uuidCache;
+    private static CacheMap<UUID> nameCache;
 
     public static void init(){
-        uuidCache = new ExpiringCache<>();
-        nameCache = new ExpiringCache<>();
+        uuidCache = new ExpiringCacheMap<>();
+        nameCache = new ExpiringCacheMap<>();
     }
 
     public static void updateCache(UUID uuid, String name){
-        uuidCache.cache(name, new CachedObject(uuid, Settings.UUID_EXPIRE));
-        nameCache.cache(uuid, new CachedObject(name, Settings.USERNAME_EXPIRE));
+        uuidCache.cache(name, uuid, Settings.UUID_EXPIRE);
+        nameCache.cache(uuid, name, Settings.USERNAME_EXPIRE);
     }
 
     public static String getUsername(UUID uuid){
@@ -40,11 +39,11 @@ public class MojangCacheManager {
         }
     }
 
-    public static Cache<String> getUUIDCache(){
+    public static CacheMap<String> getUUIDCache(){
         return uuidCache;
     }
 
-    public static Cache<UUID> getNameCache(){
+    public static CacheMap<UUID> getNameCache(){
         return nameCache;
     }
 }
