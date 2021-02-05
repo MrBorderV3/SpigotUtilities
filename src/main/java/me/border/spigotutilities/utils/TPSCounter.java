@@ -1,7 +1,9 @@
 package me.border.spigotutilities.utils;
 
+import me.border.spigotutilities.plugin.SpigotPlugin;
+import me.border.spigotutilities.task.SpigotTask;
+import me.border.spigotutilities.task.SpigotTaskBuilder;
 import me.border.utilities.scheduler.TaskBuilder;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -45,10 +47,10 @@ public class TPSCounter  {
      */
     public void start(){
         stopped = false;
-        me.border.spigotutilities.task.TaskBuilder.builder()
+        SpigotTaskBuilder spigotBuilder = SpigotTaskBuilder.builder()
                 .after(0)
                 .every(1)
-                .runnable(new BukkitRunnable() {
+                .task(new SpigotTask() {
                     @Override
                     public void run() {
                         if (stopped) {
@@ -58,10 +60,13 @@ public class TPSCounter  {
 
                         ticksPassed += 1;
                     }
-                })
-                .run();
+                });
+        if (SpigotPlugin.isUsed()){
+            spigotBuilder.bind(SpigotPlugin.getInstance().getTerminableRegistry());
+        }
+        spigotBuilder.build();
 
-        TaskBuilder.builder()
+        TaskBuilder builder = TaskBuilder.builder()
                 .async()
                 .after(0, TimeUnit.MILLISECONDS)
                 .every(1, TimeUnit.SECONDS)
@@ -76,8 +81,11 @@ public class TPSCounter  {
                         tps = ticksPassed;
                         ticksPassed = 0;
                     }
-                })
-                .build();
+                });
+        if (SpigotPlugin.isUsed()){
+            builder.bind(SpigotPlugin.getInstance().getTerminableRegistry());
+        }
+        builder.build();
     }
 
     /**

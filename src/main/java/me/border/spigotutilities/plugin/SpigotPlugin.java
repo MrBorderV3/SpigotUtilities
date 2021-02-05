@@ -3,7 +3,8 @@ package me.border.spigotutilities.plugin;
 import me.border.spigotutilities.UtilsMain;
 import me.border.spigotutilities.command.ICommand;
 import me.border.spigotutilities.file.AbstractSpigotYamlFile;
-import me.border.spigotutilities.task.TaskBuilder;
+import me.border.spigotutilities.task.SpigotTask;
+import me.border.spigotutilities.task.SpigotTaskBuilder;
 import me.border.utilities.file.AbstractSerializedFile;
 import me.border.utilities.terminable.composite.CompositeTerminable;
 import org.bukkit.command.Command;
@@ -11,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,17 +50,18 @@ public abstract class SpigotPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
         UtilsMain.init(instance, settings.contains(Setting.PLAYER_INFO));
-        TaskBuilder.builder()
+        SpigotTaskBuilder.builder()
                 .async()
                 .after(15, TimeUnit.SECONDS)
                 .every(30, TimeUnit.SECONDS)
-                .runnable(new BukkitRunnable() {
+                .task(new SpigotTask() {
                     @Override
                     public void run() {
                         terminableRegistry.cleanup();
                     }
                 })
-                .run();
+                .bind(this.terminableRegistry)
+                .build();
         if (settings.contains(Setting.SETUP_RESOURCES)){
             AbstractSpigotYamlFile.setupAll();
             AbstractSerializedFile.setupAll();
@@ -182,6 +183,17 @@ public abstract class SpigotPlugin extends JavaPlugin {
         if (!getDataFolder().exists())
             getDataFolder().mkdirs();
         return new File(getDataFolder(), name);
+    }
+
+    /**
+     * Get the plugin's terminable registry
+     *
+     * @return The terminable registry.
+     *
+     * @see CompositeTerminable
+     */
+    public CompositeTerminable getTerminableRegistry() {
+        return terminableRegistry;
     }
 
     /**
