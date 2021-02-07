@@ -3,7 +3,7 @@ package me.border.spigotutilities.utils;
 import me.border.spigotutilities.plugin.SpigotPlugin;
 import me.border.spigotutilities.task.SpigotTask;
 import me.border.spigotutilities.task.SpigotTaskBuilder;
-import me.border.utilities.scheduler.TaskBuilder;
+import me.border.utilities.task.TaskBuilder;
 
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
