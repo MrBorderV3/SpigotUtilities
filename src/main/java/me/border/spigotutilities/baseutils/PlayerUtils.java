@@ -102,6 +102,6 @@ public class PlayerUtils {
      */
     public static int getHighestSafeBlock(Player player){
         Location loc = player.getLocation();
-        return getHighestSafeBlock(loc, (int) loc.getY());
+        return getHighestSafeBlock(loc, (int) loc.getY()+1);
     }
 }
