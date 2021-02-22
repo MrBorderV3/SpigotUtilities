@@ -37,6 +37,16 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.cryptomorin.xseries</pattern>
+                                    <shadedPattern>me.border.spigotutilities.shade.xseries</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.gson</pattern>
+                                    <shadedPattern>me.border.spigotutilities.shade.gson</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <shadeSourcesContent>true</shadeSourcesContent>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
