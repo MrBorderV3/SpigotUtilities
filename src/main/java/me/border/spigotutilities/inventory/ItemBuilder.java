@@ -1,6 +1,6 @@
 package me.border.spigotutilities.inventory;
 
-import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
 import me.border.utilities.interfaces.Builder;
 import org.bukkit.Bukkit;

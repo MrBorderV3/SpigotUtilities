@@ -3,14 +3,14 @@ package me.border.spigotutilities.baseutils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static me.border.spigotutilities.baseutils.Utils.*;
+import static me.border.spigotutilities.baseutils.ChatUtils.*;
 
 public class CommandUtils {
 
     // Check if the args are right, returns true/false.
     public static boolean argsCheck(CommandSender sender, int allowed, String[] args) {
         if (args.length != allowed) {
-            sender.sendMessage(ucs("illegalArguments"));
+            sendMsg(sender,"illegalArguments");
             return false;
         }
         return true;
@@ -21,14 +21,14 @@ public class CommandUtils {
         if (sender instanceof Player) {
             return true;
         }
-        sender.sendMessage(ucs("notAPlayer"));
+        sendMsg(sender,"notAPlayer");
         return false;
     }
 
     // Check if the target is offline/null, returns true/false.
     public static boolean offlineCheck(Player target, CommandSender sender, String replacement) {
         if (target == null) {
-            sender.sendMessage(ucs("targetOffline").replaceAll("%target%", replacement));
+            sendMsg(sender,"targetOffline", "%target%", replacement);
             return false;
         }
         return true;
@@ -39,14 +39,14 @@ public class CommandUtils {
         if (sender.hasPermission(perm)) {
             return true;
         }
-        sender.sendMessage(ucs("noPermission"));
+        sendMsg(sender,"noPermission");
         return false;
     }
 
     // Check if the sender and the target are the same, returns true/false.
     public static boolean duplicateCheck(Player sender, Player target) {
         if (sender == target) {
-            sender.sendMessage(ucs("duplicateMessage"));
+            sendMsg(sender,"duplicateMessage");
             return false;
         }
         return true;

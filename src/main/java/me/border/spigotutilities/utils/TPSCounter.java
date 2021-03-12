@@ -1,6 +1,7 @@
 package me.border.spigotutilities.utils;
 
 import me.border.spigotutilities.plugin.SpigotPlugin;
+import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.task.SpigotTask;
 import me.border.spigotutilities.task.SpigotTaskBuilder;
 import me.border.utilities.task.TaskBuilder;
@@ -61,7 +62,7 @@ public class TPSCounter  {
                         ticksPassed += 1;
                     }
                 });
-        if (SpigotPlugin.isUsed()){
+        if (UtilsMain.isUsingSpigotPlugin()){
             spigotBuilder.bind(SpigotPlugin.getInstance().getTerminableRegistry());
         }
         spigotBuilder.build();
@@ -82,7 +83,7 @@ public class TPSCounter  {
                         ticksPassed = 0;
                     }
                 });
-        if (SpigotPlugin.isUsed()){
+        if (UtilsMain.isUsingSpigotPlugin()){
             builder.bind(SpigotPlugin.getInstance().getTerminableRegistry());
         }
         builder.build();

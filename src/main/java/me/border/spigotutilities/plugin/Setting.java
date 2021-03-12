@@ -19,7 +19,12 @@ public enum Setting {
     PLAYER_INFO,
 
     /**
-     * Disable saving references of {@link org.bukkit.command.Command} and {@link org.bukkit.event.Listener} entites.
+     * Disable saving references of {@link org.bukkit.command.Command} and {@link org.bukkit.event.Listener} entities.
      */
-    DISABLE_ENTITY_REFERENCE
+    DISABLE_ENTITY_REFERENCE,
+
+    /**
+     * Disable caching of variables obtains from the config.
+     */
+    DISABLE_CONFIG_CACHE
 }

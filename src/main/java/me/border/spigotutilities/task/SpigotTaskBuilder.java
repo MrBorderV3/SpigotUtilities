@@ -1,6 +1,6 @@
 package me.border.spigotutilities.task;
 
-import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.utilities.interfaces.Builder;
 import me.border.utilities.terminable.composite.CompositeTerminable;
 
@@ -22,7 +22,7 @@ public class SpigotTaskBuilder implements Builder<SpigotTask> {
     private boolean async = false;
 
     private boolean bind = false;
-    private Set<CompositeTerminable> compositeTerminables;
+    private Set<CompositeTerminable> terminableRegistry;
 
     private long after;
     private long every;
@@ -77,24 +77,24 @@ public class SpigotTaskBuilder implements Builder<SpigotTask> {
     public SpigotTaskBuilder bind(CompositeTerminable compositeTerminable){
         if (!bind) {
             this.bind = true;
-            this.compositeTerminables = new HashSet<>();
+            this.terminableRegistry = new HashSet<>();
         }
-        this.compositeTerminables.add(compositeTerminable);
+        this.terminableRegistry.add(compositeTerminable);
         return this;
     }
 
     public SpigotTaskBuilder unbind(CompositeTerminable compositeTerminable){
         if (!bind)
             return this;
-        this.compositeTerminables.remove(compositeTerminable);
-        if (this.compositeTerminables.isEmpty())
+        this.terminableRegistry.remove(compositeTerminable);
+        if (this.terminableRegistry.isEmpty())
             bind = false;
         return this;
     }
 
     public SpigotTask build(){
         if (bind){
-            compositeTerminables.forEach(ct -> ct.bind(task));
+            terminableRegistry.forEach(ct -> ct.bind(task));
         }
         if (async) {
             switch (type) {
@@ -130,6 +130,6 @@ public class SpigotTaskBuilder implements Builder<SpigotTask> {
     }
 
     public enum Type {
-        NORMAL, LATER, REPEATING;
+        NORMAL, LATER, REPEATING
     }
 }

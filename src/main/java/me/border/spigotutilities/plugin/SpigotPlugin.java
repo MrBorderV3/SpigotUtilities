@@ -1,7 +1,8 @@
 package me.border.spigotutilities.plugin;
 
-import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.PlayerInfoAdapter;
 import me.border.spigotutilities.command.ICommand;
+import me.border.spigotutilities.config.ConfigCache;
 import me.border.spigotutilities.file.AbstractSpigotYamlFile;
 import me.border.spigotutilities.task.SpigotTask;
 import me.border.spigotutilities.task.SpigotTaskBuilder;
@@ -28,7 +29,6 @@ import java.util.concurrent.TimeUnit;
  * {@link CompositeTerminable#cleanup()}ed every 30 seconds and closed during the {@link #onDisable()}.
  */
 public abstract class SpigotPlugin extends JavaPlugin {
-    private static boolean used = false;
     private static SpigotPlugin instance;
 
     private boolean saveEntities;
@@ -49,7 +49,8 @@ public abstract class SpigotPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        UtilsMain.init(instance, settings.contains(Setting.PLAYER_INFO));
+        UtilsMain.init(instance);
+
         SpigotTaskBuilder.builder()
                 .async()
                 .after(15, TimeUnit.SECONDS)
@@ -62,9 +63,14 @@ public abstract class SpigotPlugin extends JavaPlugin {
                 })
                 .bind(this.terminableRegistry)
                 .build();
+
         if (settings.contains(Setting.SETUP_RESOURCES)){
             AbstractSpigotYamlFile.setupAll();
             AbstractSerializedFile.setupAll();
+        }
+
+        if (settings.contains(Setting.PLAYER_INFO)) {
+            PlayerInfoAdapter.init();
         }
 
         enable();
@@ -72,7 +78,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        used = true;
+        UtilsMain.setUsingSpigotPlugin(true);
         this.terminableRegistry = CompositeTerminable.create();
         this.settings = EnumSet.noneOf(Setting.class);
 
@@ -82,6 +88,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
         if (saveEntities){
             commands = new ArrayList<>();
             listeners = new ArrayList<>();
+        }
+
+        if (this.settings.contains(Setting.DISABLE_CONFIG_CACHE)){
+            UtilsMain.setConfigCache(false);
         }
     }
 
@@ -94,20 +104,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
             AbstractSerializedFile.saveAll();
         }
 
-        used = false;
-    }
-
-    /**
-     * Bind a terminable to {@code terminableRegistry}
-     *
-     * @param terminable The terminable to bind.
-     * @param <T> The type. Must extend {@link AutoCloseable}.
-     * @return The given parameter for chaining.
-     *
-     * @see CompositeTerminable
-     */
-    public <T extends AutoCloseable> T bind(T terminable) {
-        return this.terminableRegistry.bind(terminable);
+        UtilsMain.setUsingSpigotPlugin(false);
     }
 
     /**
@@ -164,13 +161,47 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     /**
-     * Check if a plugin exists and is enabled on the server
+     * Bind a terminable to {@code terminableRegistry}
      *
-     * @param name The name of the plugin
-     * @return Whether it exists
+     * @param terminable The terminable to bind.
+     * @param <T> The type. Must extend {@link AutoCloseable}.
+     * @return The given parameter for chaining.
+     *
+     * @see CompositeTerminable
      */
-    public boolean isPluginPresent(String name) {
-        return getServer().getPluginManager().getPlugin(name) != null;
+    public <T extends AutoCloseable> T bind(T terminable) {
+        return this.terminableRegistry.bind(terminable);
+    }
+
+    /**
+     * Get the plugin's terminable registry
+     *
+     * @return The terminable registry.
+     *
+     * @see CompositeTerminable
+     */
+    public CompositeTerminable getTerminableRegistry() {
+        return terminableRegistry;
+    }
+
+    /**
+     * Reload the config {@link JavaPlugin#reloadConfig()} and the {@link ConfigCache} if its being used.
+     */
+    @Override
+    public void reloadConfig() {
+        if (UtilsMain.isUsingConfigCache())
+            ConfigCache.getInstance().clear();
+
+        super.reloadConfig();
+    }
+
+    /**
+     * Get the plugin's settings.
+     *
+     * @return The settings.
+     */
+    public EnumSet<Setting> getSettings() {
+        return settings;
     }
 
     /**
@@ -186,32 +217,13 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     /**
-     * Get the plugin's terminable registry
+     * Check if a plugin exists and is enabled on the server
      *
-     * @return The terminable registry.
-     *
-     * @see CompositeTerminable
+     * @param name The name of the plugin
+     * @return Whether it exists
      */
-    public CompositeTerminable getTerminableRegistry() {
-        return terminableRegistry;
-    }
-
-    /**
-     * Get the plugin's settings.
-     *
-     * @return The settings.
-     */
-    public EnumSet<Setting> getSettings() {
-        return settings;
-    }
-
-    /**
-     * Get whether SpigotPlugin is being used or not
-     *
-     * @return {@code true} if its used {@code false} if it isn't.
-     */
-    public static boolean isUsed() {
-        return used;
+    public boolean isPluginPresent(String name) {
+        return getServer().getPluginManager().getPlugin(name) != null;
     }
 
     /**

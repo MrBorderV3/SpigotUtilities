@@ -10,9 +10,9 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 /**
- * This class is the public API class for plugins to use to replace bukkit's {@link OfflinePlayer#getName()} and {@link OfflinePlayer#getUniqueId()}.
- * Improving it by using a {@link CacheMap} system and making sure the player isn't online first before resorting to using the Mojang API.
- * If the system resorts into its last stop (Using the Mojang API) it will update the received data in the cache beforehand for easier access if the player is queued again.
+ * This class is used to replace bukkit's {@link OfflinePlayer#getName()} and {@link OfflinePlayer#getUniqueId()}.
+ * This class use {@link CacheMap} and other functions to reduce the amount of calls being made to the Mojang API.
+ * If it must use the Mojang API it will update the received data in the {@link CacheMap} beforehand for easier access if the player is queued again.
  */
 public class PlayerInfo {
 
@@ -21,7 +21,7 @@ public class PlayerInfo {
      *
      * This method first searches the player in the server, if they are found it caches their data and returns.
      * The method will then search in the cache, if they are found it will return.
-     * Lastly the method will use the mojang api {@link MojangWebManager#getUsername(UUID)} to get the name of the player with the given uuid.
+     * Lastly the method will use the Mojang API {@link MojangWebManager#getUsername(UUID)} to get the name of the player with the given uuid.
      *
      * @param uuid The uuid.
      * @return The name of the player.
@@ -49,7 +49,7 @@ public class PlayerInfo {
      *
      * This method first searches the player in the server, if they are found it caches their data and returns.
      * The method will then search in the cache, if they are found it will return.
-     * Lastly the method will use the mojang api {@link MojangWebManager#getUUID(String)} to get the UUID of the player with the given name.
+     * Lastly the method will use the Mojang API {@link MojangWebManager#getUUID(String)} to get the UUID of the player with the given name.
      *
      * @param username The name.
      * @return The {@link UUID} of the player.

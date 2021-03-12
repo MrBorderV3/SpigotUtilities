@@ -2,7 +2,7 @@ package me.border.spigotutilities.command;
 
 import me.border.spigotutilities.baseutils.ChatUtils;
 import me.border.spigotutilities.baseutils.Utils;
-import me.border.spigotutilities.UtilsMain;
+import me.border.spigotutilities.plugin.UtilsMain;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

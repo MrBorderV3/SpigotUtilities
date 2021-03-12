@@ -1,6 +1,7 @@
 package me.border.spigotutilities.baseutils;
 
-import me.border.spigotutilities.UtilsMain;
+import com.cryptomorin.xseries.XSound;
+import me.border.spigotutilities.plugin.UtilsMain;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -15,22 +16,22 @@ import static me.border.spigotutilities.baseutils.Utils.*;
 
 public class PlayerUtils {
 
-    private static JavaPlugin plugin = UtilsMain.getInstance();
+    private static final JavaPlugin plugin = UtilsMain.getInstance();
 
     public static void playSound(Player p, Sound sound) {
         p.playSound(p.getLocation(), sound, 2F, 1F);
     }
 
-    public static void playSound(Player p, Sound sound, float volume, float pitch) {
-        p.playSound(p.getLocation(), sound, volume, pitch);
+    public static void playSound(Player p, XSound sound, float volume, float pitch) {
+        p.playSound(p.getLocation(), sound.parseSound(), volume, pitch);
     }
 
     public static void playSound(Player p, String sound) {
-        p.playSound(p.getLocation(), Sound.valueOf(cs(sound)), 2F, 1F);
+        playSound(p, sound, 2F, 1F);
     }
 
     public static void playSound(Player p, String sound, float volume, float pitch) {
-        p.playSound(p.getLocation(), Sound.valueOf(cs(sound)), volume, pitch);
+        playSound(p, XSound.valueOf(cs(sound)), volume, pitch);
     }
 
     public static void setMetadata(Player p, String key, Object value) {
@@ -54,7 +55,6 @@ public class PlayerUtils {
 
         return lastBlock;
     }
-
 
     /**
      * Get the highest safe two air block space in a location from the given y
