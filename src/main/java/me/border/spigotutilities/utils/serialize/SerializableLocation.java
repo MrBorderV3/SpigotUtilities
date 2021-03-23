@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SerializableLocation implements Serializable {
 
-    private static final CacheMap<Integer> locationCache = new ExpiringCacheMap<>(60, TimeUnit.SECONDS);
+    private static final ExpiringCacheMap<Integer> locationCache = new ExpiringCacheMap<>(60, TimeUnit.SECONDS);
 
     private final double x;
     private final double y;

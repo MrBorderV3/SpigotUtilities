@@ -21,7 +21,7 @@ public class ConfigCache {
 
     private static final JavaPlugin plugin = UtilsMain.getInstance();
 
-    private final CacheMap<String> configCache = new ExpiringCacheMap<>(1, TimeUnit.MINUTES);
+    private final ExpiringCacheMap<String> configCache = new ExpiringCacheMap<>(1, TimeUnit.MINUTES);
 
     private ConfigCache(){
 

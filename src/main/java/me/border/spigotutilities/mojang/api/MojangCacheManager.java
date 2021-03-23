@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public class MojangCacheManager {
 
-    private static CacheMap<String> uuidCache;
-    private static CacheMap<UUID> nameCache;
+    private static ExpiringCacheMap<String> uuidCache;
+    private static ExpiringCacheMap<UUID> nameCache;
 
     public static void init(){
         uuidCache = new ExpiringCacheMap<>();
