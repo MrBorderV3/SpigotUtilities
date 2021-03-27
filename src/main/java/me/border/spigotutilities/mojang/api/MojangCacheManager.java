@@ -2,7 +2,7 @@ package me.border.spigotutilities.mojang.api;
 
 import me.border.spigotutilities.mojang.Settings;
 import me.border.utilities.cache.CacheMap;
-import me.border.utilities.cache.ExpiringCacheMap;
+import me.border.utilities.cache.impl.ExpiringCacheMap;
 
 import java.util.UUID;
 

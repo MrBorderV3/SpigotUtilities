@@ -3,7 +3,7 @@ package me.border.spigotutilities.config;
 import me.border.spigotutilities.plugin.SpigotPlugin;
 import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.utilities.cache.CacheMap;
-import me.border.utilities.cache.ExpiringCacheMap;
+import me.border.utilities.cache.impl.ExpiringCacheMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;

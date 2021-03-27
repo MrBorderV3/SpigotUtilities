@@ -1,8 +1,7 @@
 package me.border.spigotutilities.utils.serialize;
 
-import me.border.utilities.cache.CacheMap;
 import me.border.utilities.cache.Cacheable;
-import me.border.utilities.cache.ExpiringCacheMap;
+import me.border.utilities.cache.impl.ExpiringCacheMap;
 import org.bukkit.Location;
 
 import java.io.Serializable;

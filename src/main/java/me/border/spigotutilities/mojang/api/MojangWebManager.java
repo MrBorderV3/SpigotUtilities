@@ -18,7 +18,7 @@ public class MojangWebManager {
             return null;
         }
         JsonElement usernameJsonEle = JsonParser.parseString(response);
-        if (WebRequest.isRequestLimit(usernameJsonEle)) {
+        if (isRequestLimit(usernameJsonEle)) {
             return null;
         }
         JsonArray usernameJsonArr = usernameJsonEle.getAsJsonArray();
@@ -35,7 +35,7 @@ public class MojangWebManager {
             return null;
         }
         JsonElement uuidJsonEle = JsonParser.parseString(response);
-        if (WebRequest.isRequestLimit(uuidJsonEle)) {
+        if (isRequestLimit(uuidJsonEle)) {
             return null;
         }
         JsonObject uuidJsonObj = uuidJsonEle.getAsJsonObject();
@@ -50,4 +50,9 @@ public class MojangWebManager {
         Pattern pattern = Pattern.compile("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})");
         return UUID.fromString(pattern.matcher(uuidString).replaceAll("$1-$2-$3-$4-$5"));
     }
+
+    private static boolean isRequestLimit(JsonElement json) {
+        return json.toString().contains("error");
+    }
+
 }
