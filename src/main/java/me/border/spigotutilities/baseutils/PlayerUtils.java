@@ -5,6 +5,7 @@ import me.border.spigotutilities.plugin.UtilsMain;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -57,51 +58,22 @@ public class PlayerUtils {
     }
 
     /**
-     * Get the highest safe two air block space in a location from the given y
+     * Get the highest safe block in the given location
      *
-     * @param loc The location to search
-     * @param y the Y coordinate to look under
-     * @return The y coordinate of the block. Returns -1 if non found.
+     * @param location The location to search
+     * @return The location of the safe block.
      */
-    public static int getHighestSafeBlock(Location loc, int y) {
-        boolean foundAir = false;
-        for (int i = y; i >= 0; i--) {
-            Location tempLoc = new Location(loc.getWorld(), loc.getX(), i, loc.getZ());
-            if (tempLoc.getBlock().getType() == Material.AIR) {
-                if (foundAir) {
-                    Block under = tempLoc.getBlock().getRelative(BlockFace.DOWN);
-                    if (under.getType().isSolid() && under.getType() != Material.LAVA && under.getType().isBlock()) {
-                        return i;
-                    }
-                } else {
-                    foundAir = true;
-                }
-            } else {
-                foundAir = false;
-            }
+    public static Location getGroundLocationAt(Location location) {
+        World world = location.getWorld();
+        Block highest = world != null ? world.getHighestBlockAt(location).getRelative(BlockFace.DOWN) : null;
+        Block block = highest != null && highest.getY() < location.getY() ? highest : location.getBlock();
+
+        while(!block.getType().isSolid() && block.getLocation().getY() >= 0) {
+            block = block.getRelative(BlockFace.DOWN);
         }
 
-        return -1;
-    }
-
-    /**
-     * Get the highest safe two air block space in a location from top to bottom
-     *
-     * @param loc The location to search
-     * @return The y coordinate of the block. Returns -1 if non found.
-     */
-    public static int getHighestSafeBlock(Location loc) {
-        return getHighestSafeBlock(loc, 256);
-    }
-
-    /**
-     * Get the highest safe two air block space under a player.
-     *
-     * @param player The player to search against
-     * @return The y coordinate of the block. Returns -1 if non found.
-     */
-    public static int getHighestSafeBlock(Player player){
-        Location loc = player.getLocation();
-        return getHighestSafeBlock(loc, (int) loc.getY()+1);
+        return new Location(location.getWorld(), location.getX(),
+                block.getY() >= 0 ? block.getY() + 1 : location.getY(),
+                location.getZ(), location.getYaw(), location.getPitch());
     }
 }
