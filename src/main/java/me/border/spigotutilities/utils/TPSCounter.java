@@ -4,9 +4,9 @@ import me.border.spigotutilities.plugin.SpigotPlugin;
 import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.task.SpigotTask;
 import me.border.spigotutilities.task.SpigotTaskBuilder;
-import me.border.utilities.task.TaskBuilder;
+import me.border.utilities.scheduler.async.AsyncTask;
+import me.border.utilities.scheduler.async.AsyncTaskBuilder;
 
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -67,15 +67,14 @@ public class TPSCounter  {
         }
         spigotBuilder.build();
 
-        TaskBuilder builder = TaskBuilder.builder()
-                .async()
+        AsyncTaskBuilder builder = AsyncTaskBuilder.builder()
                 .after(0, TimeUnit.MILLISECONDS)
                 .every(1, TimeUnit.SECONDS)
-                .task(new TimerTask() {
+                .task(new AsyncTask() {
                     @Override
                     public void run() {
                         if (stopped) {
-                            cancel();
+                            closeSilently();
                             return;
                         }
 
