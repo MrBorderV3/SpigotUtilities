@@ -1,5 +1,6 @@
 package me.border.spigotutilities.inventory;
 
+import me.border.spigotutilities.baseutils.ChatUtils;
 import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
 import me.border.utilities.interfaces.Builder;
@@ -161,7 +162,7 @@ public class ItemBuilder implements Builder<ItemStack> {
         ItemStack itemStack = new ItemStack(type, amount == 0 ? 1 : amount);
         ItemMeta meta = itemStack.getItemMeta();
         if (name != null){
-            meta.setDisplayName(name);
+            meta.setDisplayName(ChatUtils.colorize(name));
         }
         if (lore != null){
             meta.setLore(lore);
