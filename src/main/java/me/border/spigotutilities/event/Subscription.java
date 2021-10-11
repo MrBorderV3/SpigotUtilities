@@ -1,10 +1,10 @@
-package me.border.spigotutilities.listener;
+package me.border.spigotutilities.event;
 
 import me.border.utilities.terminable.Terminable;
 import org.bukkit.event.Event;
 
 /**
- * Represents a subscription to a given {@link Event}.
+ * Represents a subscription to a given {@link Event}(s).
  */
 public interface Subscription<T extends Event> extends Terminable {
 

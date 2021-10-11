@@ -1,4 +1,4 @@
-package me.border.spigotutilities.listener;
+package me.border.spigotutilities.event;
 
 import me.border.spigotutilities.plugin.SpigotPlugin;
 import org.bukkit.Bukkit;
@@ -11,31 +11,32 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class EventListener<T extends Event> implements Subscription<T>, EventExecutor, Listener {
 
     private final Class<T> eventClass;
-    private final Consumer<T> eventConsumer;
+    private final List<Consumer<T>> eventHandlers;
     private final EventPriority priority;
 
     private final boolean handleSubclasses;
 
     private final List<Predicate<T>> filters;
 
-    private final List<Predicate<T>> preExpiryTest;
-    private final List<Predicate<T>> postExpiryTest;
+    private final List<BiPredicate<Subscription<T> ,T>> preExpiryTest;
+    private final List<BiPredicate<Subscription<T> ,T>> postExpiryTest;
 
     private final BiConsumer<? super T, Throwable> exceptionConsumer;
 
     private final AtomicLong calls = new AtomicLong(0);
     private final AtomicBoolean active = new AtomicBoolean(true);
 
-    public EventListener(Class<T> eventClass, Consumer<T> eventConsumer, EventPriority priority, boolean handleSubclasses,
-                         List<Predicate<T>> filters, List<Predicate<T>> preExpiryTest, List<Predicate<T>> postExpiryTest, BiConsumer<? super T, Throwable> exceptionConsumer){
+    protected EventListener(Class<T> eventClass, List<Consumer<T>> eventHandlers, EventPriority priority, boolean handleSubclasses,
+                         List<Predicate<T>> filters, List<BiPredicate<Subscription<T> ,T> > preExpiryTest, List<BiPredicate<Subscription<T> ,T> > postExpiryTest, BiConsumer<? super T, Throwable> exceptionConsumer){
         this.eventClass = eventClass;
-        this.eventConsumer = eventConsumer;
+        this.eventHandlers = eventHandlers;
         this.priority = priority;
 
         this.handleSubclasses = handleSubclasses;
@@ -65,8 +66,8 @@ public class EventListener<T extends Event> implements Subscription<T>, EventExe
 
         T eventInstance = this.eventClass.cast(event);
 
-        for (Predicate<T> test : this.preExpiryTest){
-            if (test.test(eventInstance)){
+        for (BiPredicate<Subscription<T> ,T>  test : this.preExpiryTest){
+            if (test.test(this, eventInstance)){
                 event.getHandlers().unregister(listener);
                 this.active.set(false);
                 return;
@@ -79,14 +80,20 @@ public class EventListener<T extends Event> implements Subscription<T>, EventExe
                     return;
             }
 
-            eventConsumer.accept(eventInstance);
+            eventHandlers.forEach(handler -> {
+                try {
+                    handler.accept(eventInstance);
+                } catch (Throwable t) {
+                    exceptionConsumer.accept(eventInstance, t);
+                }
+            });
             this.calls.incrementAndGet();
         } catch (Throwable t){
             exceptionConsumer.accept(eventInstance, t);
         }
 
-        for (Predicate<T> test : this.postExpiryTest){
-            if (test.test(eventInstance)){
+        for (BiPredicate<Subscription<T> ,T>  test : this.postExpiryTest){
+            if (test.test(this, eventInstance)){
                 event.getHandlers().unregister(listener);
                 this.active.set(false);
                 return;
@@ -95,11 +102,13 @@ public class EventListener<T extends Event> implements Subscription<T>, EventExe
     }
 
     public void register(boolean ignoreCancelled){
+        validate();
         Bukkit.getPluginManager().registerEvent(this.eventClass, this, this.priority, this, SpigotPlugin.getInstance(), ignoreCancelled);
     }
 
     @Override
     public void unregister() {
+        validate();
         if (!this.active.getAndSet(false))
             return;
 
