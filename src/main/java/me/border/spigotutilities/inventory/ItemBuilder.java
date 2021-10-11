@@ -3,7 +3,7 @@ package me.border.spigotutilities.inventory;
 import me.border.spigotutilities.baseutils.ChatUtils;
 import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
-import me.border.utilities.interfaces.Builder;
+import me.border.utilities.util.builder.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

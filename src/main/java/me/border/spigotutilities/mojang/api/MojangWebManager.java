@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.border.spigotutilities.utils.URLHandler;
-import me.border.utilities.utils.WebRequest;
+import me.border.utilities.util.WebRequest;
 
 import java.util.UUID;
 import java.util.regex.Pattern;

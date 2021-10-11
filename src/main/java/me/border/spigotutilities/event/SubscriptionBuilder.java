@@ -1,7 +1,7 @@
 package me.border.spigotutilities.event;
 
 import com.google.common.base.Preconditions;
-import javafx.util.Builder;
+import me.border.utilities.util.builder.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
@@ -25,8 +25,8 @@ import java.util.function.Predicate;
  */
 public class SubscriptionBuilder<T extends Event> implements Builder<Subscription<T>> {
 
-    public static <T extends Event> SubscriptionBuilder<T> builder(){
-        return new SubscriptionBuilder<>();
+    public static <T extends Event> SubscriptionBuilder<T> builder(Class<T> eventClass){
+        return new SubscriptionBuilder<>(eventClass);
     }
 
     private final BiConsumer<Object, Throwable> DEFAULT_EXCEPTION_CONSUMER = (event, throwable) -> {
@@ -34,7 +34,7 @@ public class SubscriptionBuilder<T extends Event> implements Builder<Subscriptio
         throwable.printStackTrace();
     };
 
-    private Class<T> eventClass;
+    private final Class<T> eventClass;
     private final List<Consumer<T>> eventHandlers = new ArrayList<>();
     private EventPriority priority = EventPriority.NORMAL;
 
@@ -49,18 +49,8 @@ public class SubscriptionBuilder<T extends Event> implements Builder<Subscriptio
 
     private boolean ignoreCancelled = false;
 
-    protected SubscriptionBuilder() {
-    }
-
-    /**
-     * Set the {@link Event} this subscription should listen to
-     *
-     * @param eventClass The {@link Event} class the subscription should listen to.
-     * @return The {@link SubscriptionBuilder} for chaining purposes
-     */
-    public SubscriptionBuilder<T> event(Class<T> eventClass){
+    protected SubscriptionBuilder(Class<T> eventClass) {
         this.eventClass = eventClass;
-        return this;
     }
 
     /**
@@ -110,7 +100,33 @@ public class SubscriptionBuilder<T extends Event> implements Builder<Subscriptio
     }
 
     /**
-     * Add {@link BiPredicate} test at the given test points.
+     * Add a {@link Predicate} filter to the subscription.
+     * Filters are tested on the {@link Event} instance prior to the {@code eventHandlers} execution.
+     * If any filter returns {@code false} they prevent any of the {@code eventHandlers} 
+     * from running and stop the execution.
+     *
+     * @param filter The {@link Predicate} filter to add
+     * @return The {@link SubscriptionBuilder} for chaining purposes
+     */
+    public SubscriptionBuilder<T> filter(Predicate<T> filter){
+        this.filters.add(filter);
+        return this;
+    }
+
+    /**
+     * Add a collection of {@link Predicate} filters to the subscription.
+     * @see SubscriptionBuilder#filter(Predicate) 
+     *
+     * @param filters The {@link Predicate} filters to add
+     * @return The {@link SubscriptionBuilder} for chaining purposes
+     */
+    public SubscriptionBuilder<T> filters(Collection<Predicate<T>> filters){
+        this.filters.addAll(filters);
+        return this;
+    }
+
+    /**
+     * Add a {@link BiPredicate} test at the given test points.
      * If any test returns {@code true} the subscription unregisters and closes.
      * If {@link TestStage#PRE} is given then the test will execute before the event handlers.
      * If {@link TestStage#POST} is given then the test will execute after the event handlers.
