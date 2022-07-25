@@ -34,6 +34,11 @@ public class ChatUtils {
         sendRawMsg(sender, cs(path), replace, replacement, replace2, replacement2);
     }
 
+    public static void sendMsg(CommandSender sender, String path, String... patterns){
+        String msg = cs(path);
+        sendRawMsg(sender, msg, patterns);
+    }
+
     // Send a raw message to a CommandSender
     public static void sendRawMsg(CommandSender sender, String message) {
         sender.sendMessage(colorize(message));
@@ -45,6 +50,22 @@ public class ChatUtils {
 
     public static void sendRawMsg(CommandSender sender, String message, String replace, String replacement, String replace2, String replacement2) {
         sender.sendMessage(colorize(message.replaceAll(replace, replacement).replaceAll(replace2, replacement2)));
+    }
+
+    public static void sendRawMsg(CommandSender sender, String message, String... patterns){
+        boolean isRegex = true;
+        String tempRegex = "";
+        for (String str : patterns){
+            if (isRegex) {
+                tempRegex = str;
+                isRegex = false;
+            } else {
+                message = message.replaceAll(tempRegex, str);
+                isRegex = true;
+            }
+        }
+
+        sendRawMsg(sender, message);
     }
 
     // Convert a string list into messages and send them to a CommandSender
