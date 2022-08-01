@@ -20,10 +20,6 @@ import java.util.*;
  */
 public class ItemBuilder implements Builder<ItemStack> {
 
-    public static void registerGlow(){
-        glowEnchantment = registerGlowEnchantment();
-    }
-
     private static Enchantment glowEnchantment;
 
     private Material type = null;
@@ -121,6 +117,8 @@ public class ItemBuilder implements Builder<ItemStack> {
     }
 
     public ItemBuilder setGlowing(boolean glowing){
+        if (glowing && glowEnchantment == null)
+            glowEnchantment = registerGlowEnchantment();
         this.glowing = glowing;
         return this;
     }
@@ -256,7 +254,7 @@ public class ItemBuilder implements Builder<ItemStack> {
         return true;
     }
 
-    public static Enchantment registerGlowEnchantment(){
+    private static Enchantment registerGlowEnchantment(){
         Enchantment glow = Enchantment.getByKey(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
         if (glow != null) {
             if (glow.getKey().getKey().equals("Glow")) {
@@ -287,6 +285,7 @@ public class ItemBuilder implements Builder<ItemStack> {
         if (forced) {
             try {
                 f = Enchantment.class.getDeclaredField("acceptingNew");
+                f.setAccessible(true);
                 f.set(null, false);
                 f.setAccessible(false);
             }
