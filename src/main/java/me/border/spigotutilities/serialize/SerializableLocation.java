@@ -1,4 +1,4 @@
-package me.border.spigotutilities.utils.serialize;
+package me.border.spigotutilities.serialize;
 
 import me.border.utilities.cache.Cacheable;
 import me.border.utilities.cache.impl.ExpiringCacheMap;
