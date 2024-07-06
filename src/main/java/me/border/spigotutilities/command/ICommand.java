@@ -69,8 +69,15 @@ public abstract class ICommand extends Command {
 
     private void registerWithBukkit() {
         try {
-            String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            Class craftServerNMS = Class.forName("org.bukkit.craftbukkit." + version + ".CraftServer");
+            Class craftServerNMS;
+
+            if (!Bukkit.getBukkitVersion().contains("1.2")) {
+                String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+                craftServerNMS = Class.forName("org.bukkit.craftbukkit." + version + ".CraftServer");
+            } else {
+                craftServerNMS = Class.forName("org.bukkit.craftbukkit.CraftServer");
+            }
+
             Object pluginServer = craftServerNMS.cast(Bukkit.getServer());
             Object commandMap = pluginServer.getClass().getMethod("getCommandMap").invoke(pluginServer);
             commandMap.getClass().getMethod("register", String.class, Command.class).invoke(commandMap, plugin.getDescription().getName(), this);

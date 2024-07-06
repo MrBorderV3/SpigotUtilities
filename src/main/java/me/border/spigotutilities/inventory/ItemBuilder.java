@@ -1,18 +1,15 @@
 package me.border.spigotutilities.inventory;
 
 import me.border.spigotutilities.baseutils.ChatUtils;
-import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.spigotutilities.mojang.PlayerInfo;
 import me.border.utilities.interfaces.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 /**
@@ -20,11 +17,11 @@ import java.util.*;
  */
 public class ItemBuilder implements Builder<ItemStack> {
 
-    public static void registerGlow(){
-        glowEnchantment = registerGlowEnchantment();
-    }
+//    public static void registerGlow(){
+//        glowEnchantment = registerGlowEnchantment();
+//    }
 
-    private static Enchantment glowEnchantment;
+    //private static Enchantment glowEnchantment;
 
     private Material type = null;
     private String name = null;
@@ -172,9 +169,9 @@ public class ItemBuilder implements Builder<ItemStack> {
                 meta.addEnchant(entry.getKey(), entry.getValue(), false);
             }
         }
-        if (glowing){
-            itemStack.addUnsafeEnchantment(glowEnchantment, 0);
-        }
+//        if (glowing){
+//            itemStack.addUnsafeEnchantment(glowEnchantment, 0);
+//        }
         itemStack.setItemMeta(meta);
 
         return itemStack;
@@ -256,45 +253,45 @@ public class ItemBuilder implements Builder<ItemStack> {
         return true;
     }
 
-    public static Enchantment registerGlowEnchantment(){
-        Enchantment glow = Enchantment.getByKey(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
-        if (glow != null) {
-            if (glow.getKey().getKey().equals("Glow")) {
-                return glow;
-            }
-        }
-
-        Field f;
-        boolean forced = false;
-        if (!Enchantment.isAcceptingRegistrations()) {
-            try {
-                f = Enchantment.class.getDeclaredField("acceptingNew");
-                f.setAccessible(true);
-                f.set(null, true);
-                forced = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        try {
-            glow = new ItemGlow(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
-            Enchantment.registerEnchantment(glow);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (forced) {
-            try {
-                f = Enchantment.class.getDeclaredField("acceptingNew");
-                f.set(null, false);
-                f.setAccessible(false);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return glow;
-    }
+//    public static Enchantment registerGlowEnchantment(){
+//        Enchantment glow = Enchantment.getByKey(new NamespacedKey(UtilsMain.getInstance(), "Glow"));
+//        if (glow != null) {
+//            if (glow.getKey().getKey().equals("Glow")) {
+//                return glow;
+//            }
+//        }
+//
+//        Field f;
+//        boolean forced = false;
+//        if (!Enchantment.isAcceptingRegistrations()) {
+//            try {
+//                f = Enchantment.class.getDeclaredField("acceptingNew");
+//                f.setAccessible(true);
+//                f.set(null, true);
+//                forced = true;
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        try {
+//            glow = new ItemGlow();
+//            Enchantment.registerEnchantment(glow);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (forced) {
+//            try {
+//                f = Enchantment.class.getDeclaredField("acceptingNew");
+//                f.set(null, false);
+//                f.setAccessible(false);
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return glow;
+//    }
 }
