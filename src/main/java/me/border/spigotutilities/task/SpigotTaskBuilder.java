@@ -2,7 +2,7 @@ package me.border.spigotutilities.task;
 
 import me.border.spigotutilities.plugin.UtilsMain;
 import me.border.utilities.terminable.composite.CompositeTerminable;
-import me.border.utilities.util.builder.Builder;
+import me.border.utilities.interfaces.Builder;
 
 import java.util.HashSet;
 import java.util.Set;

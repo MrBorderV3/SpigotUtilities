@@ -1,7 +1,7 @@
 package me.border.spigotutilities.event;
 
 import com.google.common.base.Preconditions;
-import me.border.utilities.util.builder.Builder;
+import me.border.utilities.interfaces.Builder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
