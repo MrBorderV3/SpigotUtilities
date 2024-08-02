@@ -73,7 +73,7 @@ public abstract class ICommand extends Command {
             // For some reason in version 1.21 they decided to remove the version from the package (fucking a-holes).
             // Note: if they change it back in 1.22 im ending support for the plugin <and my life)
             // I cant take the versional changes no more
-            int subVersion = Integer.parseInt(Bukkit.getBukkitVersion().split("\\.")[1]);
+            int subVersion = Integer.parseInt(Bukkit.getBukkitVersion().split("\\.")[1].split("-")[0]);
 
             if (subVersion <= 20) {
                 String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
